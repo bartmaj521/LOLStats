@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DDragonService, ChampionDto, RealmsDto } from './ddragon.service';
+
+import { DDragonService } from './ddragon.service';
+import { RealmsDto } from './DTOs/realmsDto';
+import { ChampionDto } from './DTOs/championDto';
 
 @Component({
   selector: 'app-champions-list',
