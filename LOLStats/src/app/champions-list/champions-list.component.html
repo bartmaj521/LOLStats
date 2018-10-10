@@ -1,6 +1,8 @@
 <div class="flex-container">
   <div *ngFor="let champion of champions">
-    <img [src]="championsImagesUrl + champion.image.full" class="champion-image"><br>
-    <h5 class="champion-name"> {{ champion.name }}</h5>
+    <div class="champion-item">
+      <img [src]="championsImagesUrl + champion.image.full" class="champion-image"><br>
+      <p class="champion-name"> {{ champion.name }}</p>
+    </div>
   </div>
 </div>

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { DDragonService } from './ddragon.service';
-import { RealmsDto } from './DTOs/realmsDto';
-import { ChampionDto } from './DTOs/championDto';
+import { DDragonService } from '../shared/services/ddragon/ddragon.service';
+import { ChampionDto } from '../shared/services/ddragon/DTOs/championDto';
 
 @Component({
   selector: 'app-champions-list',
@@ -12,27 +11,22 @@ import { ChampionDto } from './DTOs/championDto';
 export class ChampionsListComponent implements OnInit {
 
   champions: ChampionDto[] = [];
-  championsImagesUrl: string;
+  championsImagesUrl = '';
 
-  constructor(private ddragon: DDragonService) {
-    ddragon.getRealms()
-    .subscribe(
-      (data: RealmsDto) => {
-        console.log(data);
-        this.championsImagesUrl = 'http://ddragon.leagueoflegends.com/cdn/' + data.n.champion + '/img/champion/';
-        console.log(this.championsImagesUrl);
-        ddragon.getChampions()
-        .subscribe(
-          (champions: ChampionDto[]) => {
-            this.champions = champions;
-            console.log(this.champions);
-          }
-        );
-      }
-    );
-  }
+  constructor(private ddragon: DDragonService) {}
 
   ngOnInit() {
+    if (this.ddragon.isChampionReady) {
+      this.champions = this.ddragon.champions;
+      this.championsImagesUrl = this.ddragon.championsImagesUrl;
+    } else {
+      this.ddragon.onChampionsReady.subscribe(
+        () => {
+          this.champions = this.ddragon.champions;
+          this.championsImagesUrl = this.ddragon.championsImagesUrl;
+        }
+      );
+    }
   }
 
 }

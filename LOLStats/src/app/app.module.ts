@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ChampionsListComponent } from './champions-list/champions-list.component';
-import { DDragonService } from './champions-list/ddragon.service';
+import { DDragonService } from './shared/services/ddragon/ddragon.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
