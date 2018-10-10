@@ -1,8 +1,11 @@
-<div class="flex-container">
-  <div *ngFor="let champion of champions">
+<div class="flex-container" (window:resize)="onResize($event)">
+  <ng-container *ngFor="let champion of champions; let i = index">
     <div class="champion-item">
-      <img [src]="championsImagesUrl + champion.image.full" class="champion-image"><br>
+      <img [src]="championsImagesUrl + champion.image.full" class="champion-image" (click)="championClicked(i)"><br>
       <p class="champion-name"> {{ champion.name }}</p>
     </div>
-  </div>
+    <div *ngIf="desiredChampionInfoBoxPosition === i">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut gravida nisl. Suspendisse blandit id ex non porta. Mauris suscipit odio nisi, a ultricies ipsum consectetur ut. Etiam eu nibh viverra, ullamcorper quam eget, aliquam justo. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nulla facilisi. Phasellus ullamcorper fringilla dolor id volutpat. Vivamus aliquam vel quam sed interdum. Aliquam ac sem bibendum ante aliquam tristique. Cras pulvinar tristique augue, quis mollis turpis sollicitudin id. Donec erat dui, semper id dui sit amet, placerat porttitor libero. Morbi non lacus molestie, euismod turpis ut, sodales lorem. Sed elit ante, iaculis vitae diam eu, varius gravida massa. Phasellus feugiat ligula vel interdum molestie. Donec vel erat orci. Aliquam pellentesque tincidunt magna non porta.
+    </div>
+  </ng-container>
 </div>
