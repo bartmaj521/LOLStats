@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, EventEmitter } from '@angular/core';
 
-import { RealmsDto } from './DTOs/realmsDto';
-import { ChampionsDto } from './DTOs/championsDto';
-import { ChampionDto } from './DTOs/championDto';
+import { RealmsResponse } from './DTOs/RealmsResponse';
+import { ChampionListResponse } from './DTOs/ChampionListResponse';
+import { ChampionDto } from './DTOs/ChampionListResponse';
+import { IndividualChampionResponse } from './DTOs/IndividualChampionResponse';
 
 @Injectable()
 export class DDragonService {
@@ -11,18 +12,32 @@ export class DDragonService {
   isChampionReady = false;
   onChampionsReady = new EventEmitter<{}>();
 
-  realms: RealmsDto;
+  realms: RealmsResponse;
   champions: ChampionDto[] = [];
 
+  championsDetailedInfoUrl = '';
+
   championsImagesUrl = '';
+  championLoadingImageUrl = 'http://ddragon.leagueoflegends.com/cdn/img/champion/loading/';
 
   constructor(private httpClient: HttpClient) {
-    this.httpClient.get<RealmsDto>('https://ddragon.leagueoflegends.com/realms/eune.json')
+    this.httpClient.get<RealmsResponse>('https://ddragon.leagueoflegends.com/realms/eune.json')
       .subscribe(
         (data) => {
           this.realms = data;
-          this.setChampionsImagesUrlVersion(this.realms.n.champion);
-          this.httpClient.get<ChampionsDto>('http://ddragon.leagueoflegends.com/cdn/'
+          this.setChampionsImagesUrlsVersion(this.realms.n.champion);
+          this.downloadChampions();
+        }
+      );
+  }
+
+  downloadDetailedChampion(id: string) {
+    return this.httpClient
+      .get<IndividualChampionResponse>('http://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion/' + id + '.json');
+  }
+
+  private downloadChampions() {
+    this.httpClient.get<ChampionListResponse>('http://ddragon.leagueoflegends.com/cdn/'
           + this.realms.n.champion
           + '/data/en_US/champion.json')
             .subscribe(
@@ -31,11 +46,10 @@ export class DDragonService {
               this.isChampionReady = true;
               this.onChampionsReady.emit();
           });
-        }
-      );
   }
 
-  private setChampionsImagesUrlVersion(version: String) {
+  private setChampionsImagesUrlsVersion(version: String) {
     this.championsImagesUrl = 'http://ddragon.leagueoflegends.com/cdn/' + version + '/img/champion/';
   }
+
 }
