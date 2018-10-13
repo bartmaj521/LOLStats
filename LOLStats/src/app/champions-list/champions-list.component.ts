@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { DDragonService } from '../shared/services/ddragon/ddragon.service';
-import { ChampionDto } from '../shared/services/ddragon/DTOs/championDto';
+import { ChampionDto } from '../shared/services/ddragon/DTOs/ChampionListResponse';
 
 @Component({
   selector: 'app-champions-list',
